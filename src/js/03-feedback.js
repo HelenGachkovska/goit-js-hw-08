@@ -14,9 +14,8 @@ formEl.addEventListener(
 
 formEl.addEventListener('submit', ev => {
   ev.preventDefault();
-  ev.currentTarget.reset();
-
   console.log(formData);
+  ev.currentTarget.reset();
 
   localStorage.clear();
 });
