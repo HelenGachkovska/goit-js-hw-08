@@ -1,34 +1,45 @@
 import throttle from 'lodash.throttle';
 
 const formEl = document.querySelector('.feedback-form');
-const formData = {};
+const inputEl = document.querySelector('input');
+const messageEl = document.querySelector('textarea');
+
+let formData = {};
+
+checkingLocalStorage();
 
 formEl.addEventListener(
   'input',
   throttle(function (ev) {
-    const { name, value } = ev.target;
-    formData[name] = value;
+    if (ev.target.value) {
+      formData[ev.target.name] = ev.target.value;
+    }
+
     localStorage.setItem('feedback-form-state', JSON.stringify(formData));
   }, 500)
 );
 
 formEl.addEventListener('submit', ev => {
   ev.preventDefault();
-  console.log(formData);
-  ev.currentTarget.reset();
 
-  localStorage.clear();
-});
-
-window.addEventListener('load', ev => {
-  const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
-  const inputEl = document.querySelector('input');
-  const messageEl = document.querySelector('textarea');
-
-  if (saveData === null) {
+  if (Object.keys(formData).length === 0) {
     return;
-  } else {
-    inputEl.value = saveData.email;
-    messageEl.value = saveData.message;
   }
+  console.log(formData);
+    ev.currentTarget.reset();
+    localStorage.removeItem('feedback-form-state');
+    formData = {};
 });
+
+function checkingLocalStorage() {
+  const saveData = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+  if (saveData) {
+    inputEl.value = saveData.email || '';
+    messageEl.value = saveData.message || '';
+    formData = {
+      email: inputEl.value,
+      message: messageEl.value,
+    };
+  }
+}

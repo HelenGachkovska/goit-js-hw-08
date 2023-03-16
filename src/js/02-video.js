@@ -11,10 +11,21 @@ player.on(
   }, 1000)
 );
 
-const stopTime = JSON.parse(localStorage.getItem('videoplayer-current-time'));
+// const stopTime = JSON.parse(localStorage.getItem('videoplayer-current-time'));
+let stopTime = 0;
+
+function getStopTime() {
+  if (localStorage.length !== 0) {
+    console.log(localStorage);
+    const time = JSON.parse(localStorage.getItem('videoplayer-current-time'));
+    let stopTime = time.seconds; 
+  } 
+}
+
+getStopTime();
 
 player
-  .setCurrentTime(stopTime.seconds)
+  .setCurrentTime(stopTime)
   .then(function (seconds) {
     // seconds = the actual time that the player seeked to
   })
