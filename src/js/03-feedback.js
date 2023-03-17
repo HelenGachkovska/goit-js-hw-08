@@ -11,24 +11,24 @@ checkingLocalStorage();
 formEl.addEventListener(
   'input',
   throttle(function (ev) {
-    if (ev.target.value) {
-      formData[ev.target.name] = ev.target.value;
-    }
 
+     formData[ev.target.name] = ev.target.value;
     localStorage.setItem('feedback-form-state', JSON.stringify(formData));
-  }, 500)
+
+  }, 300)
 );
 
 formEl.addEventListener('submit', ev => {
   ev.preventDefault();
 
-  if (Object.keys(formData).length === 0) {
+  if (formData.email === "" ||  formData.message === "" || Object.keys(formData).length === 0) {
+    alert("Всі поля повинні бути заповнені!");
     return;
   }
   console.log(formData);
-    ev.currentTarget.reset();
-    localStorage.removeItem('feedback-form-state');
-    formData = {};
+  ev.currentTarget.reset();
+  localStorage.removeItem('feedback-form-state');
+  formData = {};
 });
 
 function checkingLocalStorage() {
