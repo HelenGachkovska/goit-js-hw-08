@@ -15,7 +15,7 @@ formEl.addEventListener(
      formData[ev.target.name] = ev.target.value;
     localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 
-  }, 300)
+  }, 500)
 );
 
 formEl.addEventListener('submit', ev => {
